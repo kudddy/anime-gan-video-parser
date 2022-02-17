@@ -1,0 +1,6 @@
+app:
+  constants:
+    bot_token: 2079006861:AAHbMFZld6q-edr5zPdxGaXNqLxQdtykiKY
+  hosts:
+    redis:
+      url: redis://redis

@@ -6,13 +6,15 @@ import aioredis
 from plugins.bot import Bot
 from plugins.logic import pars_video
 from plugins.queue import Queue
+from plugins.config import cfg
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
-bot = Bot(token="2079006861:AAHbMFZld6q-edr5zPdxGaXNqLxQdtykiKY")
-redis = aioredis.from_url("redis://localhost", decode_responses=True)
+bot = Bot(token=cfg.app.constants.bot_token)
+
+redis = aioredis.from_url(cfg.app.hosts.redis.url, decode_responses=True)
 
 
 async def start_working():
@@ -24,6 +26,7 @@ async def start_working():
 
         file_id = data.get("file_id", "")
         chat_id = data.get("chat_id", "")
+        user_id = data.get("user_id", "")
 
         if len(file_id) > 0:
             # получаем file_id фоток
@@ -33,6 +36,7 @@ async def start_working():
 
                 struct = {str(k): v for k, v in enumerate(arr_for_ids)}
                 struct.update({"chat_id": chat_id})
+                struct.update({"user_id": user_id})
 
                 log.info("send message to queen - {}".format("parser_to_creator"))
 

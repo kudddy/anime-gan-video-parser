@@ -1,7 +1,16 @@
-****
-запрос с video
+## anime-gan-video-parser
+Сервис разбивает на кадры видео и отправляет фото в хранилище. Хранилище отдает идентификаторы файлов, сервис отправляет 
+id в трансформер.
+
+## Сборка проекта
+сборка образа
+```
+docker build -t docker.io/kudddy/anime-gan-video-parser:release-01 .
 ```
 
+загрузка образа
+```
+docker push docker.io/kudddy/anime-gan-video-parser:release-01
 ```
 
 
