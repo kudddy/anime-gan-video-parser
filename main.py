@@ -32,6 +32,7 @@ async def start_working():
             # получаем file_id фоток
             log.info("start working")
             try:
+                bot.messaging.send_message(chat_id=chat_id, text="Начинаем обрабатывать видео!")
                 arr_for_ids = await pars_video(file_id)
 
                 struct = {str(k): v for k, v in enumerate(arr_for_ids)}

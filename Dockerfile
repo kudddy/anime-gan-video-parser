@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
     && apt-get install -y -qq git python-dev libxml2-dev libxslt1-dev antiword \
-                              unrtf poppler-utils tesseract-ocr flac \
+                              unrtf poppler-utils tesseract-ocr flac libx264-dev \
                               ffmpeg lame libmad0 libsox-fmt-mp3 sox libjpeg-dev swig \
                               pkg-config libpoppler-private-dev libpoppler-cpp-dev\
     && apt-get clean

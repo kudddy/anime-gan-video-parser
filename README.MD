@@ -10,9 +10,13 @@ docker build -t docker.io/kudddy/anime-gan-video-parser:release-01 .
 
 загрузка образа
 ```
-docker push docker.io/kudddy/anime-gan-video-parser:release-01
+docker push docker.io/kudddy/anime-gan-video-parser:release-02
 ```
 
+rolling update
+```
+kubectl set image deployments/anime-gan-video-parser animeganvideoparser=kudddy/anime-gan-video-parser:release-02
+```
 
 запуск redis
 ```

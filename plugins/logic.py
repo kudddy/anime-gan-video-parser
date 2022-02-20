@@ -9,6 +9,7 @@ duration_target = 3
 
 
 async def pars_video(file_id: str):
+
     resp = await bot.servicing.get_file(file_id=file_id)
 
     # генерируем url c видео для загрузки
@@ -50,7 +51,7 @@ async def pars_video(file_id: str):
             # convert to jpeg and save in variable
             image_bytes = cv2.imencode('.jpg', image)[1].tobytes()
             # получаем видео от telegram
-            resp = bot.messaging.send_photo(chat_id=81432612, image_bytes=image_bytes)
+            resp = bot.messaging.send_photo(chat_id=710828013, image_bytes=image_bytes)
             # записываем в массив id файлов с самым большим разрешением
             # этот массив мы должны передать на обработку
             file_ids_arr.append(resp.result.get_file_id())
