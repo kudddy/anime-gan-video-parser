@@ -1,9 +1,10 @@
 import cv2
-from asyncio import get_event_loop
 
 from plugins.bot import ServiceBot, Bot
+from plugins.config import cfg
 
-bot = Bot(token="2079006861:AAHbMFZld6q-edr5zPdxGaXNqLxQdtykiKY")
+
+bot = Bot(token=cfg.app.constants.bot_token)
 
 duration_target = 3
 

@@ -32,7 +32,7 @@ async def start_working():
             # получаем file_id фоток
             log.info("start working")
             try:
-                bot.messaging.send_message(chat_id=chat_id, text="Начинаем обрабатывать видео!")
+                await bot.messaging.send_message(chat_id=chat_id, text="Начинаю парсить видео!🦥")
                 arr_for_ids = await pars_video(file_id)
 
                 struct = {str(k): v for k, v in enumerate(arr_for_ids)}
@@ -40,6 +40,8 @@ async def start_working():
                 struct.update({"user_id": user_id})
 
                 log.info("send message to queen - {}".format("parser_to_creator"))
+
+                await bot.messaging.send_message(chat_id=chat_id, text="Закончил парсинг! Начинаю обработку видео🦥")
 
                 await queue.send(name="parser_to_transformer", struct=struct)
             except Exception as e:
