@@ -27,6 +27,7 @@ async def start_working():
         file_id = data.get("file_id", "")
         chat_id = data.get("chat_id", "")
         user_id = data.get("user_id", "")
+        user_model = data.get("user_model", "")
 
         if len(file_id) > 0:
             # получаем file_id фоток
@@ -36,8 +37,11 @@ async def start_working():
                 arr_for_ids = await pars_video(file_id)
 
                 struct = {str(k): v for k, v in enumerate(arr_for_ids)}
-                struct.update({"chat_id": chat_id})
-                struct.update({"user_id": user_id})
+                struct.update({
+                    "chat_id": chat_id,
+                    "user_id": user_id,
+                    "user_model": user_model
+                })
 
                 log.info("send message to queen - {}".format("parser_to_creator"))
 

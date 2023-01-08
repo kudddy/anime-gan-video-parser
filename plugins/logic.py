@@ -1,16 +1,34 @@
-import cv2
+import logging
 
-from plugins.bot import ServiceBot, Bot
+import cv2
+import dlib
+import numpy as np
+
+from plugins.bot import Bot
+from plugins.logger import send_log
 from plugins.config import cfg
 
 
 bot = Bot(token=cfg.app.constants.bot_token)
-
+face_detector = dlib.get_frontal_face_detector()
 duration_target = 3
+
+x_top = cfg.app.constants.image.top
+x_bottom = cfg.app.constants.image.bottom
+x_left = cfg.app.constants.image.left
+x_right = cfg.app.constants.image.right
+
+logging.basicConfig(level=logging.DEBUG)
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG)
+
+log.debug("top - {}, bottom - {}, left - {}, right - {}".format(x_top,
+                                                                x_bottom,
+                                                                x_left,
+                                                                x_right))
 
 
 async def pars_video(file_id: str):
-
     resp = await bot.servicing.get_file(file_id=file_id)
 
     # генерируем url c видео для загрузки
@@ -18,6 +36,9 @@ async def pars_video(file_id: str):
 
     # загружаем видео
     video = cv2.VideoCapture(video_url)
+
+    video.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+    video.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
     # определяем параметры видео
     fps = video.get(cv2.CAP_PROP_FPS)  # OpenCV2 version 2 used "CV_CAP_PROP_FPS"
@@ -46,16 +67,40 @@ async def pars_video(file_id: str):
     success, image = video.read()
     count = 0
     file_ids_arr = []
+
     while success:
         # пропускаем каждый второй кадры для оптимизации
-        if count % 2 == 0:
-            # convert to jpeg and save in variable
-            image_bytes = cv2.imencode('.jpg', image)[1].tobytes()
-            # получаем видео от telegram
-            resp = bot.messaging.send_photo(chat_id=710828013, image_bytes=image_bytes)
-            # записываем в массив id файлов с самым большим разрешением
-            # этот массив мы должны передать на обработку
-            file_ids_arr.append(resp.result.get_file_id())
+        try:
+            if count % 2 == 0:
+
+                image_to_np = np.array(image)
+
+                detected_faces = face_detector(image_to_np, 1)
+                if len(detected_faces) > 0:
+                    face_rect = detected_faces[0]
+
+                    crop = image_to_np[face_rect.top() - x_top:face_rect.bottom() + x_bottom, face_rect.left() - x_left:face_rect.right() + x_right]
+                    crop = cv2.imencode('.jpg', crop, [cv2.IMWRITE_JPEG_QUALITY, 100])[1].tobytes()
+                else:
+                    crop = image_to_np
+                # получаем видео от telegram
+
+                resp = bot.messaging.send_photo(chat_id=710828013, image_bytes=crop)
+
+                # записываем в массив id файлов с самым большим разрешением
+                # этот массив мы должны передать на обработку
+                file_ids_arr.append(resp.result.get_file_id())
+        except Exception as e:
+            await send_log(
+                {
+                    "MESSAGE_NAME": "LOGGER_INFO",
+                    "DATA": {
+                        "log_info": "[anime-gan-video-parser] Error - {}".format(str(e)),
+                        "bot_type": "AnimeGanServiceBot",
+                        "error_status": False
+                    }
+                }
+            )
 
         # переходим к следующему кадру
         success, image = video.read()

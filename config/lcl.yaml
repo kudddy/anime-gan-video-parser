@@ -1,6 +1,13 @@
 app:
   constants:
     bot_token: 2079006861:AAHbMFZld6q-edr5zPdxGaXNqLxQdtykiKY
+    image:
+      top: 100
+      bottom: 100
+      left: 50
+      right: 50
   hosts:
     redis:
       url: redis://redis
+    logger:
+      url: https://i-see-you.ru/skilllogger/sendlog
