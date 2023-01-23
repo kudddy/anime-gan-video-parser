@@ -11,3 +11,15 @@ app:
       url: redis://redis
     logger:
       url: https://i-see-you.ru/skilllogger/sendlog
+    sheduler:
+      url: http://animegango:9000/start
+  auth:
+    email:
+      username: checklolsafa@gmail.com
+      gmail_app_password: uyrizldwdpaivtrs
+    pg:
+      dbname: db
+      user: user
+      password: pass
+      host: localhost
+      port: 5432

@@ -7,3 +7,10 @@ requests
 aioredis
 pyaml
 Pillow
+pandas
+openpyxl
+asyncpgsa~=0.27.1
+sqlalchemy~=1.3.20
+
+redis
+psycopg2-binary
