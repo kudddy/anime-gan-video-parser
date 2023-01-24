@@ -1,7 +1,6 @@
 import uuid
 import logging
 
-# from aioredis.client import Redis
 from redis.client import Redis
 
 logging.basicConfig(level=logging.DEBUG)
