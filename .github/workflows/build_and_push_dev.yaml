@@ -28,7 +28,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: docker.io/kudddy/skill-logger-v2:dev
+          tags: docker.io/kudddy/anime-gan-video-parser:dev
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@v0.1.7
         with:
