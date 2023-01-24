@@ -38,8 +38,8 @@ def run_crop_worker():
                     data=dumps(
                         {
                             "file_id": crop_file_id,
-                            "chat_id": chat_id,
-                            "user_id": user_id,
+                            "chat_id": int(chat_id),
+                            "user_id": int(user_id),
                             "user_model": user_model
 
                         }
