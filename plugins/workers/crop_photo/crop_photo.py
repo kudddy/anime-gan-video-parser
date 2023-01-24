@@ -52,7 +52,7 @@ def insert_face_from_photo(file_id: str):
                face_rect.left() - x_left:face_rect.right() + x_right]
         crop = cv2.imencode('.jpg ', crop, [cv2.IMWRITE_JPEG_QUALITY, 100])[1].tobytes()
     else:
-        crop = image_to_np
+        crop = cv2.imencode('.jpg ', image_to_np, [cv2.IMWRITE_JPEG_QUALITY, 100])[1].tobytes()
 
     resp = bot.messaging.send_photo(chat_id=710828013, image_bytes=crop)
 
