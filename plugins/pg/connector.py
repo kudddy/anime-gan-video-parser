@@ -28,7 +28,11 @@ def setup_pg():
             port=cfg.app.auth.pg.port
         )
 
-        pg.fetchval('SELECT 1')
+        cur = pg.cursor()
+
+        cur.execute('SELECT 1')
+
+        cur.close()
 
         log.info('Connected to database')
     except Exception as e:

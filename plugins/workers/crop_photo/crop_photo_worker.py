@@ -16,14 +16,15 @@ log.setLevel(logging.DEBUG)
 def run_crop_worker():
     queue_name = "bot_to_crop_photo"
     while True:
-        data = queue.receive(queue_name)
 
-        file_id = data.get("file_id", "")
-        chat_id = data.get("chat_id", "")
-        user_id = data.get("user_id", "")
-        user_model = data.get("user_model", "")
+        if queue.qsize(queue_name) > 0:
+            data = queue.receive(queue_name)
 
-        if len(file_id) > 0:
+            file_id = data.get("file_id", "")
+            chat_id = data.get("chat_id", "")
+            user_id = data.get("user_id", "")
+            user_model = data.get("user_model", "")
+
             log.info("start crop photo")
             try:
                 crop_file_id = insert_face_from_photo(

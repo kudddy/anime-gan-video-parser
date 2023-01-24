@@ -1,3 +1,17 @@
+map_bot_to_table = {
+    "SberLogisticsChatBotTest": "logistics_meta_data_info",
+    "SberLogisticsChatBotProd": "logistics_meta_data_info_prod",
+    "SberDevicesWeb": "devices_meta_data_info_test",
+    "SberDevicesChatBotProd": "devices_meta_data_info_prod"
+}
+
+
+def get_table_by_bot(skill_name: str) -> (str, bool):
+    if skill_name in map_bot_to_table:
+        return map_bot_to_table.get(skill_name), True
+    else:
+        return "", False
+
 
 query_calc_statistics = """
 select date, count(count_to_redirect) as count_of_messages, sum(count_to_redirect) as count_of_operators from
@@ -18,7 +32,7 @@ from (select t.*, min(id) over (partition by message_name, grp) as minid
       from (select t.*,
                    (row_number() over (order by id) - row_number() over (partition by session_id, message_name order by id)
                    ) as grp
-            from logistics_meta_data_info t where extract (month FROM t.date) = extract (month FROM CURRENT_DATE)
+            from {} t where extract (month FROM t.date) = extract (month FROM CURRENT_DATE)
            ) t
      ) t where message_name = 'MESSAGE_TO_SKILL') as t2 group by t2.new_id, t2.date) pg_aggregate
 

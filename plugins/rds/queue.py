@@ -13,6 +13,10 @@ class Queue:
     def __init__(self, redis: Redis):
         self.redis = redis
 
+    def qsize(self, name: str):
+
+        return self.redis.llen(name)
+
     def send(self, name: str, struct: dict):
 
         uid = str(uuid.uuid4())

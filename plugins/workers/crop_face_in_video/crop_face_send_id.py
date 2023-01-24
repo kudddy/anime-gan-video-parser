@@ -17,35 +17,37 @@ def start_listening_and_pars():
     name = "bot_to_video_parser"
 
     while True:
-        data = queue.receive(name)
 
-        file_id = data.get("file_id", "")
-        chat_id = data.get("chat_id", "")
-        user_id = data.get("user_id", "")
-        user_model = data.get("user_model", "")
+        if queue.qsize(name) > 0:
+            data = queue.receive(name)
 
-        if len(file_id) > 0:
-            # получаем file_id фоток
-            log.info("start working")
-            try:
-                bot.messaging.send_message(chat_id=chat_id, text="Начинаю парсить видео!🦥")
-                arr_for_ids = pars_video(file_id)
+            file_id = data.get("file_id", "")
+            chat_id = data.get("chat_id", "")
+            user_id = data.get("user_id", "")
+            user_model = data.get("user_model", "")
 
-                struct = {str(k): v for k, v in enumerate(arr_for_ids)}
+            if len(file_id) > 0:
+                # получаем file_id фоток
+                log.info("start working")
+                try:
+                    bot.messaging.send_message(chat_id=chat_id, text="Начинаю парсить видео!🦥")
+                    arr_for_ids = pars_video(file_id)
 
-                struct.update({
-                    "chat_id": chat_id,
-                    "user_id": user_id,
-                    "user_model": user_model
-                })
+                    struct = {str(k): v for k, v in enumerate(arr_for_ids)}
 
-                log.info("send message to queen - {}".format("parser_to_creator"))
+                    struct.update({
+                        "chat_id": chat_id,
+                        "user_id": user_id,
+                        "user_model": user_model
+                    })
 
-                bot.messaging.send_message(chat_id=chat_id, text="Закончил парсинг! Начинаю обработку видео🦥")
+                    log.info("send message to queen - {}".format("parser_to_creator"))
 
-                queue.send(name="parser_to_transformer", struct=struct)
-            except Exception as e:
-                log.info("something wrong with error - {}".format(e))
+                    bot.messaging.send_message(chat_id=chat_id, text="Закончил парсинг! Начинаю обработку видео🦥")
+
+                    queue.send(name="parser_to_transformer", struct=struct)
+                except Exception as e:
+                    log.info("something wrong with error - {}".format(e))
 
         else:
-            sleep(5)
+            sleep(1)

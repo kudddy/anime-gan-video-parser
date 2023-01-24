@@ -53,8 +53,10 @@ class ServiceBot:
             "Content-Type": "application/json"
         }
 
-        response = req.get(URL_GET_FILE.format(self.token, file_id),
-                           headers=headers)
+        response = req.get(
+            URL_GET_FILE.format(self.token, file_id),
+            headers=headers
+        )
 
         response = response.json()
 
@@ -260,8 +262,9 @@ class MessagingBot:
             "Content-Type": "application/json"
         }
 
-        response = req.get(URL_SEND_MESSAGE.format(self.token), headers=headers, data=json.dumps(payload),
-                           ssl=False)
+        response = req.get(URL_SEND_MESSAGE.format(self.token),
+                           headers=headers,
+                           data=json.dumps(payload))
 
         response = response.json()
 
@@ -305,10 +308,11 @@ class MessagingBot:
                     "inline_keyboard": inline_keyboard}
                 })
 
-        response = req.get(URL_EDIT_MESSAGE.format(self.token),
-                           headers=headers,
-                           data=json.dumps(payload),
-                           ssl=False)
+        response = req.get(
+            url=URL_EDIT_MESSAGE.format(self.token),
+            headers=headers,
+            data=json.dumps(payload)
+        )
 
         response = response.json()
 
@@ -333,8 +337,11 @@ class MessagingBot:
             "animation": file_id
         }
 
-        response = req.get(URL_SEND_ANIMATION.format(self.token), headers=headers, data=json.dumps(payload),
-                           ssl=False)
+        response = req.get(
+            url=URL_SEND_ANIMATION.format(self.token),
+            headers=headers,
+            data=json.dumps(payload)
+        )
         response = response.json()
         res = response.get("ok")
 
@@ -353,8 +360,11 @@ class MessagingBot:
             "video": file_id
         }
 
-        response = req.get(URL_SEND_VIDEO.format(self.token), headers=headers, data=json.dumps(payload),
-                           ssl=False)
+        response = req.get(
+            url=URL_SEND_VIDEO.format(self.token),
+            headers=headers,
+            data=json.dumps(payload)
+        )
         response = response.json()
         res = response.get("ok")
 
