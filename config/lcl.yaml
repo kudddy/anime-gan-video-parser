@@ -2,10 +2,10 @@ app:
   constants:
     bot_token: 2079006861:AAHbMFZld6q-edr5zPdxGaXNqLxQdtykiKY
     image:
-      top: 100
-      bottom: 100
-      left: 50
-      right: 50
+      top: 300
+      bottom: 300
+      left: 150
+      right: 150
   hosts:
     redis:
       url: redis://127:0:0:1
