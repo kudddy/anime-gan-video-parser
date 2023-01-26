@@ -2,12 +2,27 @@ app:
   constants:
     bot_token: 2079006861:AAHbMFZld6q-edr5zPdxGaXNqLxQdtykiKY
     image:
-      top: 100
-      bottom: 100
-      left: 50
-      right: 50
+      top: 300
+      bottom: 300
+      left: 150
+      right: 150
   hosts:
     redis:
-      url: redis://redis
+      url: redis://127:0:0:1
+      host: localhost
+      port: 6379
+      db: 0
     logger:
       url: https://i-see-you.ru/skilllogger/sendlog
+    sheduler:
+      url: http://animegango:9000/start
+  auth:
+    email:
+      username: checklolsafa@gmail.com
+      gmail_app_password: uyrizldwdpaivtrs
+    pg:
+      dbname: db
+      user: user
+      password: pass
+      host: localhost
+      port: 5434

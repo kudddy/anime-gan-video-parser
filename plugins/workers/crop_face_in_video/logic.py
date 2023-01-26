@@ -8,7 +8,6 @@ from plugins.bot import Bot
 from plugins.logger import send_log
 from plugins.config import cfg
 
-
 bot = Bot(token=cfg.app.constants.bot_token)
 face_detector = dlib.get_frontal_face_detector()
 duration_target = 3
@@ -28,8 +27,8 @@ log.debug("top - {}, bottom - {}, left - {}, right - {}".format(x_top,
                                                                 x_right))
 
 
-async def pars_video(file_id: str):
-    resp = await bot.servicing.get_file(file_id=file_id)
+def pars_video(file_id: str):
+    resp = bot.servicing.get_file(file_id=file_id)
 
     # генерируем url c видео для загрузки
     video_url = bot.servicing.generate_file_url(resp.result.file_path)
@@ -79,7 +78,8 @@ async def pars_video(file_id: str):
                 if len(detected_faces) > 0:
                     face_rect = detected_faces[0]
 
-                    crop = image_to_np[face_rect.top() - x_top:face_rect.bottom() + x_bottom, face_rect.left() - x_left:face_rect.right() + x_right]
+                    crop = image_to_np[face_rect.top() - x_top:face_rect.bottom() + x_bottom,
+                           face_rect.left() - x_left:face_rect.right() + x_right]
                     crop = cv2.imencode('.jpg', crop, [cv2.IMWRITE_JPEG_QUALITY, 100])[1].tobytes()
                 else:
                     crop = image_to_np
@@ -91,7 +91,7 @@ async def pars_video(file_id: str):
                 # этот массив мы должны передать на обработку
                 file_ids_arr.append(resp.result.get_file_id())
         except Exception as e:
-            await send_log(
+            send_log(
                 {
                     "MESSAGE_NAME": "LOGGER_INFO",
                     "DATA": {
@@ -102,9 +102,9 @@ async def pars_video(file_id: str):
                 }
             )
 
+
         # переходим к следующему кадру
         success, image = video.read()
-        print('Read a new frame: ', success)
         count += 1
 
         if count >= target_count_frames:

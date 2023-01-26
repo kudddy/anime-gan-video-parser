@@ -1,9 +1,11 @@
-aiohttp-requests
 numpy
 cmake
 pydantic~=1.8.2
 opencv-python
 requests
-aioredis
 pyaml
 Pillow
+pandas
+openpyxl
+redis
+psycopg2-binary
