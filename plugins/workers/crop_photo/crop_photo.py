@@ -9,7 +9,6 @@ import numpy as np
 from PIL import Image
 
 from plugins.bot import Bot
-from plugins.logger import send_log
 from plugins.config import cfg
 
 bot = Bot(token=cfg.app.constants.bot_token)
