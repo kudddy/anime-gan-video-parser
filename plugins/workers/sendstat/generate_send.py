@@ -55,10 +55,11 @@ class StatCalc:
                  count_of_messages: int,
                  automation: int):
 
-        if isinstance(date, datetime):
-            self._memory['date'].append(date.strftime("%m/%d/%Y"))
-        elif isinstance(date, str):
+        if isinstance(date, str):
             self._memory['date'].append(date)
+        else:
+            self._memory['date'].append(date.strftime("%m/%d/%Y"))
+
         self._memory['count_of_operators'].append(count_of_operators)
         self._memory['count_of_messages'].append(count_of_messages)
         self._memory['automation'].append(automation)
